@@ -112,51 +112,54 @@ def analyzeHand(currentCards):
         print("Pair!")
     else:
         print("High card!")
+
 # changes royals into b,c,d to help with sorting the array
 def identifyRoyals(card):
+    if card[0] == 'A':
+        return '1'
     if card[0] == 'J':
-        return 'B'
-    if card[0] == 'Q':
         return 'C'
-    if card[0] == 'K':
+    if card[0] == 'Q':
         return 'D'
+    if card[0] == 'K':
+        return 'E'
     return card[0]
 # converts 10 and royals to numbers
 def royalToNumber(card):
-    if card[0] == 'A':
-        return 10
     if card[0] == 'B':
-        return 11
+        return 10
     if card[0] == 'C':
-        return 12
+        return 11
     if card[0] == 'D':
+        return 12
+    if card[0] == 'E':
         return 13
     return card[0]
 # check for royal flush
 def checkForRoyalFlush(currentCards):
     if "1c" in currentCards:
-        if "Ac" in currentCards:
-            if "Bc" in currentCards:
-                if "Cc" in currentCards:
-                    if "Dc" in currentCards:
+        if "Bc" in currentCards:
+            if "Cc" in currentCards:
+                if "Dc" in currentCards:
+                    if "Ec" in currentCards:
                         return True
     if "1d" in currentCards:
-        if "Ad" in currentCards:
-            if "Bd" in currentCards:
-                if "Cd" in currentCards:
-                    if "Dd" in currentCards:
+        if "Bd" in currentCards:
+            if "Cd" in currentCards:
+                if "Dd" in currentCards:
+                    if "Ed" in currentCards:
                         return True
     if "1h" in currentCards:
-        if "Ah" in currentCards:
-            if "Bh" in currentCards:
-                if "Ch" in currentCards:
-                    if "Dh" in currentCards:
+        if "Bh" in currentCards:
+            if "Ch" in currentCards:
+                if "Dh" in currentCards:
+                    if "Eh" in currentCards:
                         return True
     if "1s" in currentCards:
-        if "As" in currentCards:
-            if "Bs" in currentCards:
-                if "Cs" in currentCards:
-                    if "Ds" in currentCards:
+        if "Bs" in currentCards:
+            if "Cs" in currentCards:
+                if "Ds" in currentCards:
+                    if "Es" in currentCards:
                         return True
     return False
     
@@ -273,7 +276,7 @@ def detect(weights='cards_v5.pt',  # model.pt path(s)
                     inputCard = names[int(c)]
                     # changes 10 into a to help sort the array
                     if len(inputCard) == 3:
-                        inputCard = "A" + inputCard[2]
+                        inputCard = "B" + inputCard[2]
                     # change royals to b,c,d to help sort the array
                     inputCard = identifyRoyals(inputCard) + inputCard[1]
 
@@ -287,6 +290,8 @@ def detect(weights='cards_v5.pt',  # model.pt path(s)
                     # analyze current hand
                     analyzeHand(currentCards)
 
+                currentCards.clear()
+                time.sleep(.3)
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
                     if save_txt:  # Write to file
